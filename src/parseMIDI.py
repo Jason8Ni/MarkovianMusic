@@ -4,7 +4,7 @@ import hashlib
 import mido
 import argparse
 
-from markov_chain import MarkovChain
+from markovChain import MarkovChain
 
 class ParseMIDI:
 
