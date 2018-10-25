@@ -78,8 +78,5 @@ class ParseMIDI:
         return self.markovChain
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("input_file", help="The midi file input")
-    args = parser.parse_args()
-    print(ParseMIDI(args.input_file).getChain())
-    print('No issues parsing {}'.format(args.input_file))
+    print(ParseMIDI('./MIDIFiles/Unravel.mid').getChain().printAsMatrix())
+    print('No issues parsing {}'.format('./MIDIFiles/Unravel.mid'))
