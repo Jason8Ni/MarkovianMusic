@@ -15,10 +15,26 @@ Note = namedtuple('Node', ['note', 'duration'])
 class MarkovChain: 
 
     def __init__(self):
+        """
+        Constructor for the Markov Chain class. Used to set up the chain and the sums
+        dictionaries
+        """
         self.chain = defaultdict(Counter)
         self.sums = defaultdict(int)
+
+    def createFromDict(dict):
+        m = MarkovChain()
+
+        for fromNote, toNotes in dict.items():
+            for k, v in toNotess.items():
+                m.add(fromNote, k, v)
+        return m
+
     
     def _serialize(self, note, duration):
+        """
+        Serialize the note with it's attributes
+        """
         return Note(note, duration)
 
     def __str__(self):
@@ -27,6 +43,48 @@ class MarkovChain:
     def getChain(self):
         return {k: dict(v) for k, v in self.chain.items()}
 
-    def add(self, fromNote, toNote, duration):
-        self.chain[fromNote][self._serialize(toNote, duration)] += 1
+    def add(self, fromNote, toNotes, duration):
+        self.chain[fromNote][self._serialize(toNotes, duration)] += 1
         self.sums[fromNote] += 1
+
+    def merge(self, other):
+        """
+        Merge two Markov Chains together
+        """
+        assert isinstance(other, MarkovChain)
+        self.sums = defaultdict(int)
+        for fromNote, toNotes in other.chain.items():
+            self.chain[fromNote].update(toNotes)
+        for fromNote, toNotes in self.chain.items():
+            self.sums[fromNote] = sum(self.chain[fromNote].values())
+    
+    def getNext(self, seedNote):
+        if seedNote is None or seedNote not in self.chain:
+            randomChain = self.chain[random.choice(list(self.chain.keys()))]
+            return random.choice(list(randomChain.keys()))
+        nextNoteCounter = random.randint(0, self.sums[seedNote])
+        for note, frequency in self.chain[seedNote].items():
+            nextNoteCounter -= frequency
+            if nextNoteCounter <= 0:
+                return note
+
+    def printAsMatrix(self, limit=10):
+         """
+         Print the Markov chain as a matrix for visualization purposes
+         """
+         
+        columns = []
+        for fromNote, toNotes in self.chain.items():
+            for note in toNotess:
+                if note not in columns:
+                    columns.append(note)
+        _col = lambda string: '{:<8}'.format(string)
+        _note = lambda note: '{}:{}'.format(note.note, note.duration)
+        out = _col('')
+        out += ''.join([_col(_note(note)) for note in columns[:limit]]) + '\n'
+        for fromNote, toNotes in self.chain.items():
+            out += _col(fromNote)
+            for note in columns[:limit]:
+                out += _col(toNotess[note])
+            out += '\n'
+        print(out)
