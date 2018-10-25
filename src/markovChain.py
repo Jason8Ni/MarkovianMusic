@@ -22,11 +22,12 @@ class MarkovChain:
         self.chain = defaultdict(Counter)
         self.sums = defaultdict(int)
 
+    @staticmethod
     def createFromDict(dict):
         m = MarkovChain()
 
         for fromNote, toNotes in dict.items():
-            for k, v in toNotess.items():
+            for k, v in toNotes.items():
                 m.add(fromNote, k, v)
         return m
 
@@ -69,13 +70,12 @@ class MarkovChain:
                 return note
 
     def printAsMatrix(self, limit=10):
-         """
-         Print the Markov chain as a matrix for visualization purposes
-         """
-         
+        """
+        Print the Markov chain as a matrix for visualization purposes
+        """
         columns = []
         for fromNote, toNotes in self.chain.items():
-            for note in toNotess:
+            for note in toNotes:
                 if note not in columns:
                     columns.append(note)
         _col = lambda string: '{:<8}'.format(string)
@@ -85,6 +85,20 @@ class MarkovChain:
         for fromNote, toNotes in self.chain.items():
             out += _col(fromNote)
             for note in columns[:limit]:
-                out += _col(toNotess[note])
+                out += _col(toNotes[note])
             out += '\n'
         print(out)
+    
+if __name__ == '__main__':
+    print('HI')
+    m = MarkovChain()
+    m.add(12, 14, 200)
+    m.add(12, 15, 200)
+    m.add(14, 25, 200)
+    m.add(12, 14, 200)
+    n = MarkovChain()
+    n.add(10, 13, 100)
+    n.add(12, 14, 200)
+    m.merge(n)
+    print(m)
+    m.printAsMatrix()
