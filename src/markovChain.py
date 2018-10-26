@@ -8,9 +8,11 @@ import random
 
 import numpy as np
 
+import json
+
 #Define what a note is
 # consists of a note as well as the duration it is to be played
-Note = namedtuple('Node', ['note', 'duration'])
+Note = namedtuple('Note', ['note', 'duration'])
 
 class MarkovChain: 
 
@@ -31,6 +33,20 @@ class MarkovChain:
                 m.add(fromNote, k, v)
         return m
 
+    @staticmethod
+    def markovToJson(markovChain, filename):
+        with open(filename, 'w') as f:
+            return json.dump(f, {
+                'version': 1,
+                'type': 'markovChain',
+                'name': filename,
+                'data': markovChain
+            })
+
+    @staticmethod
+    def jsonToMarkov(filename):
+        with open(filename) as f:
+            return json.load(f)
     
     def _serialize(self, note, duration):
         """
@@ -89,8 +105,9 @@ class MarkovChain:
             out += '\n'
         print(out)
     
+    
+    
 if __name__ == '__main__':
-    print('HI')
     m = MarkovChain()
     m.add(12, 14, 200)
     m.add(12, 15, 200)
