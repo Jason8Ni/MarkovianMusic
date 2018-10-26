@@ -76,14 +76,11 @@ class MarkovChain:
             self.sums[fromNote] = sum(self.chain[fromNote].values())
     
     def getNext(self, seedNote):
-        if seedNote is None or seedNote not in self.chain:
+        if seedNote is None:
             randomChain = self.chain[random.choice(list(self.chain.keys()))]
             return random.choice(list(randomChain.keys()))
-        nextNoteCounter = random.randint(0, self.sums[seedNote])
-        for note, frequency in self.chain[seedNote].items():
-            nextNoteCounter -= frequency
-            if nextNoteCounter <= 0:
-                return note
+        note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
+        return note
 
     def printAsMatrix(self, limit=50):
         """

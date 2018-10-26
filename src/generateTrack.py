@@ -9,8 +9,8 @@ from markovChain import MarkovChain
 
 class Generator:
 
-    def __init__(self, markov_chain):
-        self.markov_chain = markov_chain
+    def __init__(self, markovChain):
+        self.markovChain = markovChain
 
     @staticmethod
     def load(markovChain):
@@ -30,7 +30,7 @@ class Generator:
             track = mido.MidiTrack()
             lastNote = None
             for i in range(1000):
-                newNote = self.markov_chain.getNext(lastNote)
+                newNote = self.markovChain.getNext(lastNote)
                 track.extend(self._noteToMessages(newNote))
             midi.tracks.append(track)
             midi.save(filename)
@@ -39,9 +39,9 @@ if __name__ == "__main__":
     import sys
     from parseMIDI import ParseMIDI
     print("BYE")
-    chain = ParseMIDI('./MIDIFiles/StarWars.mid').getChain()
+    chain = ParseMIDI('./MIDIFiles/Unravel.mid').getChain()
     chain.printAsMatrix()
 
     print("HI")
-    Generator.load(chain).generate('starWarsGenerate.mid')
+    Generator.load(chain).generate('unravel1.mid')
     print("Generated markov chain")
