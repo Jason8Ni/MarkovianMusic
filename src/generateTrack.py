@@ -39,8 +39,9 @@ if __name__ == "__main__":
     import sys
     from parseMIDI import ParseMIDI
     print("BYE")
-    chain = ParseMIDI('./MIDIFiles/Unravel.mid').getChain()
-    
+    chain = ParseMIDI('./MIDIFiles/StarWars.mid').getChain()
+    chain.printAsMatrix()
+
     print("HI")
-    Generator.load(chain).generate('unravelGenerate.mid')
+    Generator.load(chain).generate('starWarsGenerate.mid')
     print("Generated markov chain")

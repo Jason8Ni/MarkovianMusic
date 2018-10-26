@@ -85,7 +85,7 @@ class MarkovChain:
             if nextNoteCounter <= 0:
                 return note
 
-    def printAsMatrix(self, limit=100):
+    def printAsMatrix(self, limit=50):
         """
         Print the Markov chain as a matrix for visualization purposes
         """

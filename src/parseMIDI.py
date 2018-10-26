@@ -60,7 +60,7 @@ class ParseMIDI:
         for note1 in previousChunk:
             for note2 in currentChunk:
                 self.markovChain.add(
-                    note1, note2, self._bucketDuration(duration))
+                    note1, note2, duration)
 
     def _bucketDuration(self, ticks):
         """
