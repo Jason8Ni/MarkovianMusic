@@ -90,7 +90,7 @@ class MarkovChain:
         note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
         return note
 
-    def printAsMatrix(self, limit=10):
+    def printAsMatrix(self, limit=15):
         """
         Print the Markov chain as a matrix for visualization purposes
         """
