@@ -22,18 +22,18 @@ class ParseMIDI:
         # The difference in time between each MIDI message represents
         # the number of ticks, which can be converted to beats using
         # ticks per beat
-        self.ticksPerBeat = None
         self.markovChain = MarkovChain()
         self._parse()
 
     def _parse(self):
         """
         This function handles the reading of the MIDI file and breaks the
-        notes into sequenced "chords", which are inserted into the
+        notes into sequenced "chords", which are then inserted into the
         markov chain.
+
+        Treats all of the notes that are played simultaneously, 
         """
         midi = mido.MidiFile(self.filename)
-        self.ticksPerBeat = midi.ticks_per_beat
         previousChunk = []
         currentChunk = []
         for track in midi.tracks:
@@ -62,21 +62,9 @@ class ParseMIDI:
                 self.markovChain.add(
                     note1, note2, duration)
 
-    def _bucketDuration(self, ticks):
-        """
-        This method takes a tick count and converts it to a time in
-        milliseconds and rounds it to the nearest millisecond.
-        """
-        try:
-            ms = ((ticks / self.ticksPerBeat) * self.tempo) / 1000
-            return int(round(ms))
-        except TypeError:
-            raise TypeError(
-                "Could not read a tempo from MIDI File")
-
     def getChain(self):
         return self.markovChain
 
 if __name__ == "__main__":
     print(ParseMIDI('./MIDIFiles/Unravel.mid').getChain().printAsMatrix())
-    print('No issues parsing {}'.format('./MIDIFiles/Unravel.mid'))
+    print('Finished parsing {}'.format('./MIDIFiles/Unravel.mid'))

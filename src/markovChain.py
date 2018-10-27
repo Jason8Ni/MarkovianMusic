@@ -18,14 +18,16 @@ class MarkovChain:
 
     def __init__(self):
         """
-        Constructor for the Markov Chain class. Used to set up the chain and the sums
-        dictionaries
+        Constructor 
         """
         self.chain = defaultdict(Counter)
         self.sums = defaultdict(int)
 
     @staticmethod
     def createFromDict(dict):
+        """
+        Build chain from a dictionary 
+        """
         m = MarkovChain()
 
         for fromNote, toNotes in dict.items():
@@ -33,6 +35,9 @@ class MarkovChain:
                 m.add(fromNote, k, v)
         return m
 
+        """
+        JSON -> Chain, Chain -> JSON, for storing purposes... pretty basic
+        """
     @staticmethod
     def markovToJson(markovChain, filename):
         with open(filename, 'w') as f:
@@ -76,13 +81,16 @@ class MarkovChain:
             self.sums[fromNote] = sum(self.chain[fromNote].values())
     
     def getNext(self, seedNote):
+        """
+        get the next note, based on the probabilities 
+        """
         if seedNote is None:
             randomChain = self.chain[random.choice(list(self.chain.keys()))]
             return random.choice(list(randomChain.keys()))
         note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
         return note
 
-    def printAsMatrix(self, limit=50):
+    def printAsMatrix(self, limit=10):
         """
         Print the Markov chain as a matrix for visualization purposes
         """
