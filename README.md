@@ -144,3 +144,8 @@ If this path were to be taken there are a few parameters that would need to be c
     * The size of the sequence: There is no set size for a melody so choosing a fixed size can limit the results. 
     * Accuracy of each sub-melody. Where do I round off so that each melody is deemed exact, and a probability distribution can   start to be built up: If 1000 sub-melodies are analyzed and 1000 states are generated all with the same probability, than   the generated Markov chain is not meaningful in any way. Therefore a suitable rounding for timings must be chosen. 
     * Any other attributes of a melody: I've taken some musical theory classes (Rudiments and Harmony) and there are many different factors and elements in building a melody. If these can be captured and built into the generation algorithm, the resultant track will be much nicer to the ears! 
+
+### TODO
+* Separate hands MIDI file for analysis
+* Incorporate pitch (loudness)
+* Incorporate sequencing as states    
