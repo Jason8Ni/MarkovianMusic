@@ -18,7 +18,7 @@ class ParseMIDI:
 
         # Number of MS per beat (given in each line of the MIDI message)
         self.tempo = None
-
+        self.ticksPerBeat = None
         # The difference in time between each MIDI message represents
         # the number of ticks, which can be converted to beats using
         # ticks per beat
@@ -34,6 +34,7 @@ class ParseMIDI:
         Treats all of the notes that are played simultaneously, 
         """
         midi = mido.MidiFile(self.filename)
+        self.ticksPerBeat = midi.ticks_per_beat
         previousChunk = []
         currentChunk = []
         for track in midi.tracks:
@@ -60,7 +61,7 @@ class ParseMIDI:
         for note1 in previousChunk:
             for note2 in currentChunk:
                 self.markovChain.add(
-                    note1, note2, duration)
+                    note1, note2, int(mido.tick2second(duration, self.ticksPerBeat, self.tempo)*1000))
 
     def getChain(self):
         return self.markovChain

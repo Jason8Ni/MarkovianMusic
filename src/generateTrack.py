@@ -20,9 +20,9 @@ class Generator:
     def _noteToMessages(self, note):
         return [
             mido.Message('note_on', note=note.note, velocity=127,
-                         time=0),
+                         time=int(0)),
             mido.Message('note_off', note=note.note, velocity=0,
-                         time=note.duration)
+                         time=int(note.duration))
         ]
 
     def generate(self, filename):
@@ -44,4 +44,12 @@ if __name__ == "__main__":
 
     print("HI")
     Generator.load(chain).generate('moonlight_sonataBassGen.mid')
+    print("Generated markov chain")
+
+    print("BYE")
+    chain = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain()
+    chain.printAsMatrix()
+
+    print("HI")
+    Generator.load(chain).generate('moonlight_sonataTREBLEGen.mid')
     print("Generated markov chain")
