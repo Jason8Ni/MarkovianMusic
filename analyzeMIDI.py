@@ -9,4 +9,6 @@ def printMIDI(filename):
             print(message)
 
 
-printMIDI('./moonlight_sonataTREBLEGen.mid')
+#printMIDI('./moonlight_sonataTREBLEGen.mid')
+#print('===================')
+printMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid')

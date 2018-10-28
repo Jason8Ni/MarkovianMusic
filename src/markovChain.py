@@ -87,8 +87,13 @@ class MarkovChain:
         if seedNote is None:
             randomChain = self.chain[random.choice(list(self.chain.keys()))]
             return random.choice(list(randomChain.keys()))
-        note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
-        return note
+        #note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
+        #return note
+        next_note_counter = random.randint(0, self.sums[seed_note])
+        for note, frequency in self.chain[seed_note].items():
+            next_note_counter -= frequency
+            if next_note_counter <= 0:
+                return note
 
     def printAsMatrix(self, limit=15):
         """
@@ -99,7 +104,7 @@ class MarkovChain:
             for note in toNotes:
                 if note not in columns:
                     columns.append(note)
-        _col = lambda string: '{:<8}'.format(string)
+        _col = lambda string: '{:<12}'.format(string)
         _note = lambda note: '{}:{}'.format(note.note, note.duration)
         out = _col('')
         out += ''.join([_col(_note(note)) for note in columns[:limit]]) + '\n'

@@ -29,7 +29,7 @@ class Generator:
         with mido.midifiles.MidiFile() as midi:
             track = mido.MidiTrack()
             lastNote = None
-            for i in range(1000):
+            for i in range(100):
                 newNote = self.markovChain.getNext(lastNote)
                 track.extend(self._noteToMessages(newNote))
             midi.tracks.append(track)
@@ -47,9 +47,9 @@ if __name__ == "__main__":
     print("Generated markov chain")
 
     print("BYE")
-    chain = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain()
-    chain.printAsMatrix()
+    chain1 = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain()
+    chain1.printAsMatrix()
 
     print("HI")
-    Generator.load(chain).generate('moonlight_sonataTREBLEGen.mid')
+    Generator.load(chain1).generate('moonlight_sonataTREBLEGen.mid')
     print("Generated markov chain")

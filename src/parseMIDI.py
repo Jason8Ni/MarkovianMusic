@@ -35,6 +35,8 @@ class ParseMIDI:
         """
         midi = mido.MidiFile(self.filename)
         self.ticksPerBeat = midi.ticks_per_beat
+        print("TIcks per beat")
+        print(self.ticksPerBeat)
         previousChunk = []
         currentChunk = []
         for track in midi.tracks:
@@ -61,11 +63,26 @@ class ParseMIDI:
         for note1 in previousChunk:
             for note2 in currentChunk:
                 self.markovChain.add(
-                    note1, note2, int(mido.tick2second(duration, self.ticksPerBeat, self.tempo)*1000))
+                    note1, note2, self._bucket_duration(duration))
+
+    def _bucket_duration(self, ticks):
+        """
+        This method takes a tick count and converts it to a time in
+        milliseconds, bucketing it to the nearest 250 milliseconds.
+        """
+        try:
+            ms = ((ticks / self.ticksPerBeat) * self.tempo) / 1000
+            return int(ms - (ms % 250) + 250)
+        except TypeError:
+            raise TypeError(
+                "Could not read a tempo and ticks_per_beat from midi")
+
 
     def getChain(self):
         return self.markovChain
 
 if __name__ == "__main__":
-    print(ParseMIDI('./MIDIFiles/Unravel.mid').getChain().printAsMatrix())
-    print('Finished parsing {}'.format('./MIDIFiles/Unravel.mid'))
+    #print(ParseMIDI('./MIDIFiles/Unravel.mid').getChain().printAsMatrix())
+    #print('Finished parsing {}'.format('./MIDIFiles/Unravel.mid'))
+    print(ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain().printAsMatrix())
+    print('Finished parsing {}'.format('./MIDIFiles/moonlight_sonataTREBLE.mid'))
