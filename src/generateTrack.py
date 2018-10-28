@@ -39,9 +39,9 @@ if __name__ == "__main__":
     import sys
     from parseMIDI import ParseMIDI
     print("BYE")
-    chain = ParseMIDI('./MIDIFiles/Unravel.mid').getChain()
+    chain = ParseMIDI('./MIDIFiles/moonlight_sonataBass.mid').getChain()
     chain.printAsMatrix()
 
     print("HI")
-    Generator.load(chain).generate('unravel1.mid')
+    Generator.load(chain).generate('moonlight_sonataBassGen.mid')
     print("Generated markov chain")
