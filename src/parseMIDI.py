@@ -24,6 +24,9 @@ class ParseMIDI:
         # ticks per beat
         self.markovChain = MarkovChain()
         self._parse()
+    
+    def _getTempo(self):
+        return self.tempo
 
     def _parse(self):
         """

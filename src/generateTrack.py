@@ -25,9 +25,12 @@ class Generator:
                          time=int(note.duration))
         ]
 
-    def generate(self, filename):
+    def generate(self, filename, tempo):
         with mido.midifiles.MidiFile() as midi:
             track = mido.MidiTrack()
+            messageTrack = mido.MidiTrack()
+            messageTrack.extend(mido.MetaMessage('set_tempo', tempo = tempo, time =0))
+            midi.tracks.append(messageTrack)
             lastNote = None
             for i in range(100):
                 newNote = self.markovChain.getNext(lastNote)
@@ -39,17 +42,21 @@ if __name__ == "__main__":
     import sys
     from parseMIDI import ParseMIDI
     print("BYE")
-    chain = ParseMIDI('./MIDIFiles/moonlight_sonataBass.mid').getChain()
-    chain.printAsMatrix()
-
-    print("HI")
-    Generator.load(chain).generate('moonlight_sonataBassGen.mid')
-    print("Generated markov chain")
-
-    print("BYE")
-    chain1 = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain()
+    parsedFile = ParseMIDI('./MIDIFiles/moonlight_sonataBass.mid')
+    chain1 = parsedFile.getChain()
+    tempo1 = parsedFile._getTempo()
     chain1.printAsMatrix()
 
     print("HI")
-    Generator.load(chain1).generate('moonlight_sonataTREBLEGen.mid')
+    Generator.load(chain1).generate('moonlight_sonataBassGen.mid', tempo1)
+    print("Generated markov chain")
+
+    print("BYE")
+    parsedFile1 = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid')
+    chain2 = parsedFile1.getChain()
+    tempo2 = parsedFile1._getTempo()
+    chain2.printAsMatrix()
+
+    print("HI")
+    Generator.load(chain2).generate('moonlight_sonataTREBLEGen.mid', tempo2)
     print("Generated markov chain")
