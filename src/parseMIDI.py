@@ -27,6 +27,9 @@ class ParseMIDI:
     
     def _getTempo(self):
         return self.tempo
+    
+    def _getTicksPerBeat(self):
+        return self.ticksPerBeat
 
     def _parse(self):
         """

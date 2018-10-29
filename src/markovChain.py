@@ -84,13 +84,13 @@ class MarkovChain:
         """
         get the next note, based on the probabilities 
         """
-        if seedNote is None:
+        if seedNote is None or seedNote not in self.chain:
             randomChain = self.chain[random.choice(list(self.chain.keys()))]
             return random.choice(list(randomChain.keys()))
         #note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
         #return note
-        next_note_counter = random.randint(0, self.sums[seed_note])
-        for note, frequency in self.chain[seed_note].items():
+        next_note_counter = random.randint(0, self.sums[seedNote])
+        for note, frequency in self.chain[seedNote].items():
             next_note_counter -= frequency
             if next_note_counter <= 0:
                 return note

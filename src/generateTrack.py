@@ -22,21 +22,20 @@ class Generator:
             mido.Message('note_on', note=note.note, velocity=127,
                          time=int(0)),
             mido.Message('note_off', note=note.note, velocity=0,
-                         time=int(note.duration))
+                         time=note.duration)
         ]
 
     def generate(self, filename, tempo):
-        with mido.midifiles.MidiFile() as midi:
-            track = mido.MidiTrack()
-            messageTrack = mido.MidiTrack()
-            messageTrack.extend(mido.MetaMessage('set_tempo', tempo = tempo, time =0))
-            midi.tracks.append(messageTrack)
-            lastNote = None
-            for i in range(100):
-                newNote = self.markovChain.getNext(lastNote)
-                track.extend(self._noteToMessages(newNote))
-            midi.tracks.append(track)
-            midi.save(filename)
+        
+        midi = mido.midifiles.MidiFile()
+        track = mido.MidiTrack()
+        track.append(mido.MetaMessage('set_tempo', tempo = tempo, time = 0))
+        lastNote = None
+        for i in range(100):
+            newNote = self.markovChain.getNext(lastNote)
+            track.extend(self._noteToMessages(newNote))
+        midi.tracks.append(track)
+        midi.save(filename)
 
 if __name__ == "__main__":
     import sys
@@ -54,7 +53,9 @@ if __name__ == "__main__":
     print("BYE")
     parsedFile1 = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid')
     chain2 = parsedFile1.getChain()
+
     tempo2 = parsedFile1._getTempo()
+    print(tempo2)
     chain2.printAsMatrix()
 
     print("HI")
