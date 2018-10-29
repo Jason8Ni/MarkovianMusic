@@ -68,6 +68,8 @@ class ParseMIDI:
         """
         for note1 in previousChunk:
             for note2 in currentChunk:
+                if duration > 3000:
+                    duration = 200
                 self.markovChain.add(
                     note1, note2, self._bucket_duration(duration))
 
@@ -90,5 +92,5 @@ class ParseMIDI:
 if __name__ == "__main__":
     #print(ParseMIDI('./MIDIFiles/Unravel.mid').getChain().printAsMatrix())
     #print('Finished parsing {}'.format('./MIDIFiles/Unravel.mid'))
-    print(ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid').getChain().printAsMatrix())
-    print('Finished parsing {}'.format('./MIDIFiles/moonlight_sonataTREBLE.mid'))
+    print(ParseMIDI('./moonlight_sonataTREBLEGen.mid').getChain().printAsMatrix())
+    print('Finished parsing {}'.format('./moonlight_sonataTREBLEGen.mid'))

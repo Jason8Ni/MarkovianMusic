@@ -1,4 +1,5 @@
 import mido
+import math
 
 def mergeTrack(bassTrack, trebleTrack):
     trebleTracks = mido.MidiFile(trebleTrack)
@@ -15,6 +16,7 @@ if __name__ == "__main__":
         for i, track in enumerate(midi.tracks):
             print('Track {}: {}'.format(i, track.name))
         for message in track:
-            message.time = int(message.time)
+            print(message)
+            message.time = math.ceil(message.time*100)
             print(message)
         midi.save('moonlight_sonataMergeGen.mid')
