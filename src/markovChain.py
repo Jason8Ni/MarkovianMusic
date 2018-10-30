@@ -1,5 +1,6 @@
+#!/usr/bin/python3
 # This class is the implementation of the Markov chain
-# It will handle the generalr storage and interaction of the markov chain
+# with all it's associated helper functions
 # It is built from a nested dictionary of dictionaries. 
 
 from collections import Counter, defaultdict, namedtuple
@@ -34,24 +35,6 @@ class MarkovChain:
             for k, v in toNotes.items():
                 m.add(fromNote, k, v)
         return m
-
-        """
-        JSON -> Chain, Chain -> JSON, for storing purposes... pretty basic
-        """
-    @staticmethod
-    def markovToJson(markovChain, filename):
-        with open(filename, 'w') as f:
-            return json.dump(f, {
-                'version': 1,
-                'type': 'markovChain',
-                'name': filename,
-                'data': markovChain
-            })
-
-    @staticmethod
-    def jsonToMarkov(filename):
-        with open(filename) as f:
-            return json.load(f)
     
     def _serialize(self, note, duration):
         """
@@ -87,15 +70,10 @@ class MarkovChain:
         if seedNote is None or seedNote not in self.chain:
             randomChain = self.chain[random.choice(list(self.chain.keys()))]
             return random.choice(list(randomChain.keys()))
-        #note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
-        #return note
-        next_note_counter = random.randint(0, self.sums[seedNote])
-        for note, frequency in self.chain[seedNote].items():
-            next_note_counter -= frequency
-            if next_note_counter <= 0:
-                return note
+        note =  np.random.choice(self.chain[seedNote].items(),self.sums[seedNote])
+        return note
 
-    def printAsMatrix(self, limit=10):
+    def printAsMatrix(self, limit=8):
         """
         Print the Markov chain as a matrix for visualization purposes
         """
@@ -115,17 +93,3 @@ class MarkovChain:
             out += '\n'
         print(out)
     
-    
-    
-if __name__ == '__main__':
-    m = MarkovChain()
-    m.add(12, 14, 200)
-    m.add(12, 15, 200)
-    m.add(14, 25, 200)
-    m.add(12, 14, 200)
-    n = MarkovChain()
-    n.add(10, 13, 100)
-    n.add(12, 14, 200)
-    m.merge(n)
-    print(m)
-    m.printAsMatrix()

@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # This class handles the generation of a new song given a markov chain
 # containing the note transitions and their frequencies.
 
@@ -31,7 +32,8 @@ class Generator:
         track = mido.MidiTrack()
         track.append(mido.MetaMessage('set_tempo', tempo = tempo, time = 0))
         lastNote = None
-        for i in range(100):
+        #number is arbituary...
+        for i in range(98):
             newNote = self.markovChain.getNext(lastNote)
             track.extend(self._noteToMessages(newNote))
         midi.tracks.append(track)
@@ -40,24 +42,19 @@ class Generator:
 if __name__ == "__main__":
     import sys
     from parseMIDI import ParseMIDI
-    print("BYE")
     parsedFile = ParseMIDI('./MIDIFiles/moonlight_sonataBass.mid')
     chain1 = parsedFile.getChain()
     tempo1 = parsedFile._getTempo()
     chain1.printAsMatrix()
 
-    print("HI")
     Generator.load(chain1).generate('moonlight_sonataBassGen.mid', tempo1)
     print("Generated markov chain")
 
-    print("BYE")
     parsedFile1 = ParseMIDI('./MIDIFiles/moonlight_sonataTREBLE.mid')
     chain2 = parsedFile1.getChain()
 
     tempo2 = parsedFile1._getTempo()
-    print(tempo2)
     chain2.printAsMatrix()
 
-    print("HI")
     Generator.load(chain2).generate('moonlight_sonataTREBLEGen.mid', tempo2)
     print("Generated markov chain")
