@@ -149,3 +149,19 @@ If this path were to be taken there are a few parameters that would need to be c
 * Separate hands MIDI file for analysis
 * Incorporate pitch (loudness)
 * Incorporate sequencing as states    
+
+## Update 1
+
+Separate hand files have been explored. The midi file analyzed was the song `Moonlight Sonata`. The MIDI was first separated into treble and bass clefs using [musescore](https://musescore.org/en). After this the separate files were saved and processed to generate their respective Markov Chain. 
+
+After this was done, new MIDI tracks were generated and merged using `mergeTracks.py`. 
+
+### Funky bits: 
+
+* It was difficult to find a method to merge the two MIDI files. `Mido` has a built in function called merge_tracks that merges multiple tracks with their timings intact, but it seemed to speed up all of the notes. 
+** To fix this, the notes were scaled out after the merge. 
+
+### Results:
+
+The resultant track, `moonlight_sonataMergeGen.mid` sounds much better than those generated without separating the parts. There sections which resemble the original song and the overlap between clefs line up pretty well. In addition, the number of large jumps and skips between octaves have dropped dramatically. It almost sounds like a piano novice's first play through! :) I call that a partial success. 
+
