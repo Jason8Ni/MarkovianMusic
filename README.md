@@ -11,6 +11,8 @@
 
 ## Why Music? 
 
+I play a few instruments, and love music but theory lessons just didn't take off. Maybe this is the start of my musical career
+
 ## File Type
 
 MIDI files were chose because they are not truly audio files. Instead they just contain instructions on how the play the tracks. Due to this, MIDI files can be intrepreted and played by a multitude of software programs. This way, no "real" audio analysis would have to be done. 
@@ -159,7 +161,7 @@ After this was done, new MIDI tracks were generated and merged using `mergeTrack
 ### Funky bits: 
 
 * It was difficult to find a method to merge the two MIDI files. `Mido` has a built in function called merge_tracks that merges multiple tracks with their timings intact, but it seemed to speed up all of the notes. 
-** To fix this, the notes were scaled out after the merge. 
+* To fix this, the notes were scaled out after the merge. 
 
 ### Results:
 
